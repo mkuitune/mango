@@ -13,10 +13,10 @@
   <ItemGroup>
     <CustomBuild Include="..\bin\win32\glew32.dll" />
     <CustomBuild Include="..\bin\win32\SDL2.dll" />
-    <CustomBuild Include="..\fs2.glsl" />
-    <CustomBuild Include="..\vs2.glsl" />
+    <CustomBuild Include="fs2.glsl" />
+    <CustomBuild Include="vs2.glsl" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="..\ProtoBeta.cpp" />
+    <ClCompile Include="ProtoBeta.cpp" />
   </ItemGroup>
 </Project>

@@ -11,7 +11,7 @@
     </ProjectConfiguration>
   </ItemGroup>
   <PropertyGroup Label="Globals">
-    <ProjectGuid>{06FDB5A4-BE09-4D56-89B1-05A4843CB09B}</ProjectGuid>
+    <ProjectGuid>{85419039-B784-412A-8872-7AF4D76C08E4}</ProjectGuid>
     <Keyword>Win32Proj</Keyword>
     <RootNamespace>ProtoAlpha</RootNamespace>
   </PropertyGroup>
@@ -87,7 +87,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="ProtoBeta.cpp">
+    <ClCompile Include="ProtoGamma.cpp">
       <DisableSpecificWarnings Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">4996</DisableSpecificWarnings>
       <DisableSpecificWarnings Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">4996</DisableSpecificWarnings>
     </ClCompile>
@@ -117,7 +117,7 @@
     </CustomBuild>
   </ItemGroup>
   <ItemGroup>
-    <CustomBuild Include="fs2.glsl">
+    <CustomBuild Include="fs3.glsl">
       <FileType>Document</FileType>
       <Command Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">xcopy /Y %(FullPath) $(OutDir)</Command>
       <Command Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">xcopy /Y %(FullPath) $(OutDir)</Command>
@@ -128,7 +128,7 @@
       <LinkObjects Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">false</LinkObjects>
       <TreatOutputAsContent Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</TreatOutputAsContent>
     </CustomBuild>
-    <CustomBuild Include="vs2.glsl">
+    <CustomBuild Include="vs3.glsl">
       <FileType>Document</FileType>
       <Command Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">xcopy /Y %(FullPath) $(OutDir)</Command>
       <Command Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">xcopy /Y %(FullPath) $(OutDir)</Command>
