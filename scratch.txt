@@ -1,0 +1,50 @@
+Pack format sketch
+==================
+
+Pack program usage:
+pack.exe <archive name> * <source-file-path>
+
+Pack api: Read, write
+class PackWriter
+PackWriter.add(filepath)
+PackWriter.add(name-on-file, buffer data)
+PackWriter.write(pack-file-path)
+
+PackReader.read(pack-file-path)
+PackReader.resources->name, size, pointer
+
+Pack format:
+
+Data is little-endian.
+
+SB: Start of buffer
+RH: Resource header
+RS: Resources size
+SRS: Resources section start
+RO: Resource offset (from SRS)
+
+(#num) size in bytes
+
+Structure [Header, Body]
+
+Resource address maximum size 1024 bytes.
+Header is never compressed, body can contain compression info.
+
+Header
+------
+Header size (8)
+Adler CRC32 of total header (4)
+Version (8)
+Compression method (8)
+Number of resource headers : NUMRES (8)
+* Offset of RH start, RH size : OFFSETS(8 * NUMRES) 
+* Resource name size, Resource name, R0, RS : RH
+
+Body
+----
+*Resource
+
+
+
+Sqlite usage
+============
