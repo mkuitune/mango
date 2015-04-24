@@ -75,7 +75,7 @@ int main(int argc, char **argv)
     float uniform_color[] = {1.0, 1.0, 0.0, 1.0};
 
     GLuint theShaderProgram;
-    theShaderProgram = BuildShaderProgram("vs2.glsl", "fs2.glsl");
+    theShaderProgram = BuildShaderProgram("vs3.glsl", "fs3.glsl");
     if(theShaderProgram == -1)
     {
         SDL_Quit();
