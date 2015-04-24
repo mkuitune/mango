@@ -1,0 +1,15 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <ClCompile Include="cms_aligned_array.cpp" />
+    <ClCompile Include="cms_collections.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="cms_aligned_array.h" />
+    <ClInclude Include="cms_collections.h" />
+    <ClInclude Include="cms_rand.h" />
+    <ClInclude Include="cms_timer.h" />
+    <ClInclude Include="cms_math.h" />
+    <ClInclude Include="cms_vec.h" />
+  </ItemGroup>
+</Project>

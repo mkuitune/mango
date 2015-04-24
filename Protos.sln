@@ -9,6 +9,15 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "ProtoBeta", "ProtoBeta\Prot
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "ProtoGamma", "ProtoGamma\ProtoGamma.vcxproj", "{85419039-B784-412A-8872-7AF4D76C08E4}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{D925DD4D-B724-4183-9A05-7032196C1A38}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "MathTests", "Tests\MathTests\MathTests.vcxproj", "{EC755B6E-5099-4697-A6F9-DE99A6CD097D}"
+	ProjectSection(ProjectDependencies) = postProject
+		{E8DB510F-90BD-48C5-AEF1-967E8627D0B6} = {E8DB510F-90BD-48C5-AEF1-967E8627D0B6}
+	EndProjectSection
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Commons", "Commons\Commons.vcxproj", "{E8DB510F-90BD-48C5-AEF1-967E8627D0B6}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Win32 = Debug|Win32
@@ -27,8 +36,19 @@ Global
 		{85419039-B784-412A-8872-7AF4D76C08E4}.Debug|Win32.Build.0 = Debug|Win32
 		{85419039-B784-412A-8872-7AF4D76C08E4}.Release|Win32.ActiveCfg = Release|Win32
 		{85419039-B784-412A-8872-7AF4D76C08E4}.Release|Win32.Build.0 = Release|Win32
+		{EC755B6E-5099-4697-A6F9-DE99A6CD097D}.Debug|Win32.ActiveCfg = Debug|Win32
+		{EC755B6E-5099-4697-A6F9-DE99A6CD097D}.Debug|Win32.Build.0 = Debug|Win32
+		{EC755B6E-5099-4697-A6F9-DE99A6CD097D}.Release|Win32.ActiveCfg = Release|Win32
+		{EC755B6E-5099-4697-A6F9-DE99A6CD097D}.Release|Win32.Build.0 = Release|Win32
+		{E8DB510F-90BD-48C5-AEF1-967E8627D0B6}.Debug|Win32.ActiveCfg = Debug|Win32
+		{E8DB510F-90BD-48C5-AEF1-967E8627D0B6}.Debug|Win32.Build.0 = Debug|Win32
+		{E8DB510F-90BD-48C5-AEF1-967E8627D0B6}.Release|Win32.ActiveCfg = Release|Win32
+		{E8DB510F-90BD-48C5-AEF1-967E8627D0B6}.Release|Win32.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{EC755B6E-5099-4697-A6F9-DE99A6CD097D} = {D925DD4D-B724-4183-9A05-7032196C1A38}
 	EndGlobalSection
 EndGlobal

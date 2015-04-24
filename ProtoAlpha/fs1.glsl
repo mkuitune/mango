@@ -1,6 +1,6 @@
 #version 330
-smooth in vec4 theColor;
-out vec4 outputColor;
+smooth in Vec4 theColor;
+out Vec4 outputColor;
 void main()
 {
 	outputColor = theColor;
