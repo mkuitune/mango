@@ -1,6 +1,6 @@
 Logger service started
-thread:3003684548 Application started
-thread:3003684548 #version 330
+thread:3948114172 Application started
+thread:3948114172 #version 330
 layout(location = 0) in vec4 position;
 layout(location = 1) in vec4 color;
 smooth out vec4 theColor;
@@ -11,8 +11,8 @@ void main()
     thePosition = position;
     theColor = color;
 }
-thread:3003684548 Shader compiled sucessfully!
-thread:3003684548 #version 330
+thread:3948114172 Shader compiled sucessfully!
+thread:3948114172 #version 330
 smooth in vec4 theColor;
 smooth in vec4 thePosition;
 out vec4 outputColor;
@@ -38,28 +38,93 @@ void main()
     
 
 }
-thread:3003684548 Shader compiled sucessfully!
-thread:3003684548 Shader linked sucessfully!
-thread:3003684548 Using program3
-thread:3003684548 glError: %d
+thread:3948114172 Shader compiled sucessfully!
+thread:3948114172 Shader linked sucessfully!
+thread:3948114172 Using program3
+thread:3948114172 glError: %d
 0
-thread:3003684548 Key press:s
-thread:3003684548 Key press:d
-thread:3003684548 Key press:f
-thread:3003684548 Key press:s
-thread:3003684548 Key press:d
-thread:3003684548 Key press:f
-thread:3003684548 Key press:s
-thread:3003684548 Key press:a
-thread:3003684548 Key press:s
-thread:3003684548 Key press:d
-thread:3003684548 Key press:f
-thread:3003684548 Key press:d
-thread:3003684548 Key press:f
-thread:3003684548 Key press:f
-thread:3003684548 Key press:a
-thread:3003684548 Key press:s
-thread:3003684548 Key press:d
-thread:3003684548 Key press:f
-thread:3003684548 Key press:
+thread:3948114172 Key press:f
+thread:3948114172 Key press:g
+thread:3948114172 Key press:d
+thread:3948114172 Key press:a
+thread:3948114172 Key press:s
+thread:3948114172 Key press:d
+thread:3948114172 Key press:d
+thread:3948114172 Key press:a
+thread:3948114172 Key press:q
+thread:3948114172 Key press:w
+thread:3948114172 Key press:e
+thread:3948114172 Key press:s
+thread:3948114172 Key press:s
+thread:3948114172 Key press:d
+thread:3948114172 Key press:s
+thread:3948114172 Key press:d
+thread:3948114172 Key press:a
+thread:3948114172 Key press:s
+thread:3948114172 Key press:d
+thread:3948114172 Key press:f
+thread:3948114172 Key press:s
+thread:3948114172 Key press:d
+thread:3948114172 Key press:f
+thread:3948114172 Key press:s
+thread:3948114172 Key press:d
+thread:3948114172 Key press:f
+thread:3948114172 Key press:s
+thread:3948114172 Key press:d
+thread:3948114172 Key press:f
+thread:3948114172 Key press:LSHIFT
+thread:3948114172 Key press:t
+thread:3948114172 Key press:h
+thread:3948114172 Key press:i
+thread:3948114172 Key press:s
+thread:3948114172 Key press: 
+thread:3948114172 Key press:i
+thread:3948114172 Key press:s
+thread:3948114172 Key press: 
+thread:3948114172 Key press:i
+thread:3948114172 Key press:s
+thread:3948114172 Key press: 
+thread:3948114172 Key press:m
+thread:3948114172 Key press:y
+thread:3948114172 Key press: 
+thread:3948114172 Key press:t
+thread:3948114172 Key press:s
+thread:3948114172 Key press:e
+thread:3948114172 Key press: 
+thread:3948114172 Key press:t
+thread:3948114172 Key press:a
+thread:3948114172 Key press:n
+thread:3948114172 Key press:d
+thread:3948114172 Key press: 
+thread:3948114172 Key press:m
+thread:3948114172 Key press:y
+thread:3948114172 Key press: 
+thread:3948114172 Key press:t
+thread:3948114172 Key press:s
+thread:3948114172 Key press:e
+thread:3948114172 Key press:t
+thread:3948114172 Key press: 
+thread:3948114172 Key press:i
+thread:3948114172 Key press:s
+thread:3948114172 Key press: 
+thread:3948114172 Key press:j
+thread:3948114172 Key press:u
+thread:3948114172 Key press:s
+thread:3948114172 Key press:t
+thread:3948114172 Key press: 
+thread:3948114172 Key press:f
+thread:3948114172 Key press:i
+thread:3948114172 Key press:n
+thread:3948114172 Key press:e
+thread:3948114172 Key press:1
+thread:3948114172 Key press:LSHIFT
+thread:3948114172 Key press:LSHIFT
+thread:3948114172 Key press:1
+thread:3948114172 Key press:LSHIFT
+thread:3948114172 Key press:1
+thread:3948114172 Key press:k
+thread:3948114172 Key press:s
+thread:3948114172 Key press:d
+thread:3948114172 Key press:f
+thread:3948114172 Key press:
 Logger service finalized.

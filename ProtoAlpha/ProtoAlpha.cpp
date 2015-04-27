@@ -126,13 +126,6 @@ GLuint BuildShaderProgram(const char *vsPath, const char *fsPath)
     vertexShader = CreateShader(GL_VERTEX_SHADER, vsPath);
     fragmentShader = CreateShader(GL_FRAGMENT_SHADER, fsPath);
 
-    /* So we've compiled our shaders, now we need to link them in to the program
-    that will be used for rendering. */
-
-    /*This section could be broken out into a separate function, but we're doing it here
-    because I'm not using C++ STL features that would make this easier. Tutorial doing so is
-    here: http://www.arcsynthesis.org/gltut/Basics/Tut01%20Making%20Shaders.html */
-
     GLuint tempProgram;
     tempProgram = glCreateProgram();
 
