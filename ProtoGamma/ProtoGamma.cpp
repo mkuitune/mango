@@ -1,5 +1,3 @@
-//compile with this command on Ubuntu 12.04 machine:
-//gcc ProtoAlpha.cpp -o sdl2-opengl-sample -Wall -std=c99 -I/usr/local/include/SDL2 -lSDL2 -I/usr/include/GL -lGL -lGLEW -Wall
 #include "GL/glew.h"
 #include "SDL2/SDL.h"
 
@@ -423,13 +421,6 @@ public:
 		vertexShader = CreateShader(GL_VERTEX_SHADER, vsPath);
 		fragmentShader = CreateShader(GL_FRAGMENT_SHADER, fsPath);
 
-		/* So we've compiled our shaders, now we need to link them in to the program
-		that will be used for rendering. */
-
-		/*This section could be broken out into a separate function, but we're doing it here
-		because I'm not using C++ STL features that would make this easier. Tutorial doing so is
-		here: http://www.arcsynthesis.org/gltut/Basics/Tut01%20Making%20Shaders.html */
-
 		GLuint tempProgram;
 		tempProgram = glCreateProgram();
 
@@ -590,19 +581,16 @@ void app_thread_runner()
 		/* drawing code in here! */
 		glUseProgram(theShaderProgram);
 
-
 		glBindBuffer(GL_ARRAY_BUFFER, triangleBufferObject); //bind the buffer we're applying attributes to
 		glEnableVertexAttribArray(0); //0 is our index, refer to "location = 0" in the vertex shader
 		glEnableVertexAttribArray(1); //attribute 1 is for vertex color data
 		glVertexAttribPointer(0, 4, GL_FLOAT, GL_FALSE, 0, 0); //tell gl (shader!) how to interpret our vertex data
 		glVertexAttribPointer(1, 4, GL_FLOAT, GL_FALSE, 0, (void*) colorDataOffset); //color data is 48 bytes in to the array
 
-
 		// Attach uniforms
 
 		GLint uniform_color_loc = glGetUniformLocation(theShaderProgram, "uniform_color");
 		glProgramUniform4fv(theShaderProgram, uniform_color_loc, 1, uniform_color);
-
 
 		glDrawArrays(GL_TRIANGLES, 0, 3 * nTriangles);
 
