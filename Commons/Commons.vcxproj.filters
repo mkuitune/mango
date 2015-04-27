@@ -11,5 +11,6 @@
     <ClInclude Include="cms_timer.h" />
     <ClInclude Include="cms_math.h" />
     <ClInclude Include="cms_vec.h" />
+    <ClInclude Include="zhelpers.h" />
   </ItemGroup>
 </Project>

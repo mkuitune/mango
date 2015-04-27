@@ -18,5 +18,6 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="ProtoGamma.cpp" />
+    <ClCompile Include="PubSubMain.cpp" />
   </ItemGroup>
 </Project>
