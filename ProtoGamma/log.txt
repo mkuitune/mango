@@ -1,68 +1,65 @@
 Logger service started
-Logger service started
-Logger service started
-Logger service finalized.
-Logger service started
-thread:2687717491 Application started
-Logger service started
-thread:1711529574 Application started
-thread:1711529574 Key press:d
-thread:1711529574 Key press:d
-thread:1711529574 Key press:s
-thread:1711529574 Key press:d
-thread:1711529574 Key press:f
-thread:1711529574 Key press:s
-thread:1711529574 Key press:d
-thread:1711529574 Key press:f
-thread:1711529574 Key press:s
-thread:1711529574 Key press:d
-thread:1711529574 Key press:f
-thread:1711529574 Key press:s
-thread:1711529574 Key press:d
-thread:1711529574 Key press:f
-thread:1711529574 Key press:s
-thread:1711529574 Key press:d
-thread:1711529574 Key press:f
-thread:1711529574 Key press:s
-thread:1711529574 Key press:d
-thread:1711529574 Key press:f
-thread:1711529574 Key press:s
-thread:1711529574 Key press:d
-thread:1711529574 Key press:f
-thread:1711529574 Key press:s
-thread:1711529574 Key press:d
-thread:1711529574 Key press:f
-thread:1711529574 Key press:s
-thread:1711529574 Key press:s
-thread:1711529574 Key press:d
-thread:1711529574 Key press:f
-thread:1711529574 Key press:s
-thread:1711529574 Key press:d
-thread:1711529574 Key press:f
-thread:1711529574 Key press:s
-thread:1711529574 Key press:d
-thread:1711529574 Key press:s
-thread:1711529574 Key press:d
-thread:1711529574 Key press:1
-thread:1711529574 Key press:2
-thread:1711529574 Key press:3
-thread:1711529574 Key press:1
-thread:1711529574 Key press:2
-thread:1711529574 Key press:LSHIFT
-thread:1711529574 Key press:LSHIFT
-thread:1711529574 Key press:LSHIFT
-thread:1711529574 Key press:LCTRL
-thread:1711529574 Key press:CAPSLOCK
-thread:1711529574 Key press:CAPSLOCK
-thread:1711529574 Key press: 
-thread:1711529574 Key press: 
-thread:1711529574 Key press: 
-thread:1711529574 Key press:
-Logger service finalized.
-Logger service started
-thread:1208050467 Application started
-thread:1208050467 Key press:
-Logger service started
-thread:2905058440 Application started
-thread:2905058440 Key press:
+thread:3003684548 Application started
+thread:3003684548 #version 330
+layout(location = 0) in vec4 position;
+layout(location = 1) in vec4 color;
+smooth out vec4 theColor;
+smooth out vec4 thePosition;
+void main()
+{
+    gl_Position = position;
+    thePosition = position;
+    theColor = color;
+}
+thread:3003684548 Shader compiled sucessfully!
+thread:3003684548 #version 330
+smooth in vec4 theColor;
+smooth in vec4 thePosition;
+out vec4 outputColor;
+
+uniform vec4 uniform_color;
+
+void main()
+{
+    
+    vec4 origin = vec4(0,0,0,1.0);
+    vec4 diff = thePosition - origin;
+
+    if(length(diff) < 0.1)
+    {
+        //outputColor = vec4(1.0, 1.0, 1.0, 1.0);
+        outputColor = uniform_color;
+    }
+    else
+    {
+        outputColor = theColor;
+    }
+
+    
+
+}
+thread:3003684548 Shader compiled sucessfully!
+thread:3003684548 Shader linked sucessfully!
+thread:3003684548 Using program3
+thread:3003684548 glError: %d
+0
+thread:3003684548 Key press:s
+thread:3003684548 Key press:d
+thread:3003684548 Key press:f
+thread:3003684548 Key press:s
+thread:3003684548 Key press:d
+thread:3003684548 Key press:f
+thread:3003684548 Key press:s
+thread:3003684548 Key press:a
+thread:3003684548 Key press:s
+thread:3003684548 Key press:d
+thread:3003684548 Key press:f
+thread:3003684548 Key press:d
+thread:3003684548 Key press:f
+thread:3003684548 Key press:f
+thread:3003684548 Key press:a
+thread:3003684548 Key press:s
+thread:3003684548 Key press:d
+thread:3003684548 Key press:f
+thread:3003684548 Key press:
 Logger service finalized.

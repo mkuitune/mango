@@ -9,111 +9,17 @@
 #include<cstdio>
 #include<string>
 #include<iostream>
-#include <fstream>
+#include<fstream>
 #include<memory>
 #include<thread>
 #include<atomic>
 #include<functional>
-#include <sstream>
+#include<sstream>
+#include<set>
 
 //
 // GL utility functions
 //
-GLuint CreateShader(GLenum eShaderType, const char *strShaderFile)
-{
-	char shaderSource[4096];
-	char inChar;
-	FILE *shaderFile;
-	int i = 0;
-
-	shaderFile = fopen(strShaderFile, "r");
-	while (fscanf(shaderFile, "%c", &inChar) > 0)
-	{
-		shaderSource[i++] = inChar; //loading the file's chars into array
-	}
-	shaderSource[i - 1] = '\0';
-	fclose(shaderFile);
-	puts(shaderSource); //print to make sure the string is loaded
-
-	GLuint shader = glCreateShader(eShaderType);
-	const char *ss = shaderSource;
-	glShaderSource(shader, 1, &ss, NULL);
-
-	glCompileShader(shader);
-
-	GLint status;
-	glGetShaderiv(shader, GL_COMPILE_STATUS, &status);
-	if (status == GL_FALSE)
-	{
-		GLint infoLogLength;
-		glGetShaderiv(shader, GL_INFO_LOG_LENGTH, &infoLogLength);
-
-		GLchar strInfoLog[4096];
-		glGetShaderInfoLog(shader, infoLogLength, NULL, strInfoLog);
-
-		char strShaderType[16];
-		switch (eShaderType)
-		{
-		case GL_VERTEX_SHADER: sprintf(strShaderType, "vertex"); break;
-		case GL_GEOMETRY_SHADER: sprintf(strShaderType, "geometry"); break;
-		case GL_FRAGMENT_SHADER: sprintf(strShaderType, "fragment"); break;
-		}
-
-		printf("Compile failure in %s shader:\n%s\n", strShaderType, strInfoLog);
-		return -1;
-	}
-	else
-		puts("Shader compiled sucessfully!");
-
-	return shader;
-}
-
-
-GLuint BuildShaderProgram(const char *vsPath, const char *fsPath)
-{
-    GLuint vertexShader;
-    GLuint fragmentShader;
-
-    vertexShader = CreateShader(GL_VERTEX_SHADER, vsPath);
-    fragmentShader = CreateShader(GL_FRAGMENT_SHADER, fsPath);
-
-    /* So we've compiled our shaders, now we need to link them in to the program
-    that will be used for rendering. */
-
-    /*This section could be broken out into a separate function, but we're doing it here
-    because I'm not using C++ STL features that would make this easier. Tutorial doing so is
-    here: http://www.arcsynthesis.org/gltut/Basics/Tut01%20Making%20Shaders.html */
-
-    GLuint tempProgram;
-    tempProgram = glCreateProgram();
-
-    glAttachShader(tempProgram, vertexShader);
-    glAttachShader(tempProgram, fragmentShader);
-
-    glLinkProgram(tempProgram); //linking!
-
-    //error checking
-    GLint status;
-    glGetProgramiv(tempProgram, GL_LINK_STATUS, &status);
-    if(status == GL_FALSE)
-    {
-        GLint infoLogLength;
-        glGetProgramiv(tempProgram, GL_INFO_LOG_LENGTH, &infoLogLength);
-
-        GLchar strInfoLog[4096];
-        glGetProgramInfoLog(tempProgram, infoLogLength, NULL, strInfoLog);
-        printf("Shader linker failure: %s\n", strInfoLog);
-        return -1;
-    }
-    else
-        puts("Shader linked sucessfully!");
-
-    glDetachShader(tempProgram, vertexShader);
-    glDetachShader(tempProgram, fragmentShader);
-
-    return tempProgram;
-}
-
 namespace cma {
 
 //#define CMA_LOG_SOCKET "tcp://localhost:5558"
@@ -135,14 +41,30 @@ namespace cma {
 
 	class Log{
 	public:
+		enum Mode {
+			WriteStdout = 1, WriteFile = 2
+		};
+
 		std::ofstream file;
+		int m_mode;
+		bool m_overwrite;
+		Log(){
+			m_mode = WriteStdout | WriteFile;
+			m_overwrite = true;
+		}
 
 		void open(){
-			file.open(LogConfig::logfile, std::ios::app);
+			if (m_overwrite)
+				file.open(LogConfig::logfile);
+			else
+				file.open(LogConfig::logfile, std::ios::app);
 		}
 
 		void write(const char* msg){
-			file << msg << std::endl;
+			if (m_mode & WriteFile)
+				file << msg << std::endl;
+			if (m_mode & WriteStdout)
+				std::cout << msg << std::endl;
 		}
 
 		~Log(){
@@ -194,6 +116,7 @@ namespace cma {
 		}
 		static void end(){
 			s_run_log = false;
+			s_logThread->join();
 			zmq_ctx_destroy(s_msg_context);
 		}
 	};
@@ -207,11 +130,12 @@ namespace cma {
 	/// Use only from one thread.
 	class LogWriter {
 	public:
-
 		void* m_sender;
 		void* m_context;
 
-		LogWriter() :m_context(Log::s_msg_context), m_sender(0){}
+		LogWriter() :m_context(Log::s_msg_context), m_sender(0){
+		}
+
 		~LogWriter(){
 			// Close ZMQ client socket
 			zmq_close(m_sender);
@@ -224,13 +148,21 @@ namespace cma {
 			//zmq_connect(m_sender, CMA_LOG_SOCKET);
 			zmq_bind(m_sender, CMA_LOG_SOCKET);
 		}
+		
+		void operator()(const std::string& msg){ log(msg); }
+		void operator()(const char* msg){ log(msg); }
+		void operator()(const std::string& fst, const std::string& snd){ log(fst + snd); }
+		void operator()(const std::string& fst, const std::string& snd,
+			const std::string& thrd){ log(fst + snd + thrd); }
+		void operator()(const std::string& fst, const std::string& snd,
+			const std::string& thrd, const std::string& fourth){ log(fst + snd + thrd + fourth); }
 
-		void log_message(const std::string& msg){
-			log_message(msg.c_str());
+		void log(const std::string& msg){
+			log(msg.c_str());
 		}
 
 		// ZMQ client socket
-		void log_message(const char* message){
+		void log(const char* message){
 			size_t threadHash = std::hash<std::thread::id>()(std::this_thread::get_id());
 			std::string fullMessage = "thread:" + std::to_string(threadHash) + " " + std::string(message);
 			if (m_sender){
@@ -420,6 +352,116 @@ namespace cma {
 		return os;
 	}
 
+
+class GL3Context {
+public:
+
+	LogWriter& m_log;
+
+	std::set<GLuint> m_programs;
+
+	GL3Context(LogWriter& log) :m_log(log)
+	{
+	}
+
+	GLuint CreateShader(GLenum eShaderType, const char *strShaderFile)
+	{
+		char shaderSource[4096];
+		char inChar;
+		FILE *shaderFile;
+		int i = 0;
+
+		shaderFile = fopen(strShaderFile, "r");
+		while (fscanf(shaderFile, "%c", &inChar) > 0)
+		{
+			shaderSource[i++] = inChar; //loading the file's chars into array
+		}
+		shaderSource[i - 1] = '\0';
+		fclose(shaderFile);
+		m_log(shaderSource); //print to make sure the string is loaded
+
+		GLuint shader = glCreateShader(eShaderType);
+		const char *ss = shaderSource;
+		glShaderSource(shader, 1, &ss, NULL);
+
+		glCompileShader(shader);
+
+		GLint status;
+		glGetShaderiv(shader, GL_COMPILE_STATUS, &status);
+		if (status == GL_FALSE)
+		{
+			GLint infoLogLength;
+			glGetShaderiv(shader, GL_INFO_LOG_LENGTH, &infoLogLength);
+
+			GLchar strInfoLog[4096];
+			glGetShaderInfoLog(shader, infoLogLength, NULL, strInfoLog);
+
+			char strShaderType[16];
+			switch (eShaderType)
+			{
+			case GL_VERTEX_SHADER: sprintf(strShaderType, "vertex"); break;
+			case GL_GEOMETRY_SHADER: sprintf(strShaderType, "geometry"); break;
+			case GL_FRAGMENT_SHADER: sprintf(strShaderType, "fragment"); break;
+			}
+
+			m_log("Compile failure in ", strShaderType, " shader: ", strInfoLog);
+			return -1;
+		}
+		else
+			m_log("Shader compiled sucessfully!");
+
+		m_programs.insert(shader);
+		return shader;
+	}
+
+
+	GLuint BuildShaderProgram(const char *vsPath, const char *fsPath)
+	{
+		GLuint vertexShader;
+		GLuint fragmentShader;
+
+		vertexShader = CreateShader(GL_VERTEX_SHADER, vsPath);
+		fragmentShader = CreateShader(GL_FRAGMENT_SHADER, fsPath);
+
+		/* So we've compiled our shaders, now we need to link them in to the program
+		that will be used for rendering. */
+
+		/*This section could be broken out into a separate function, but we're doing it here
+		because I'm not using C++ STL features that would make this easier. Tutorial doing so is
+		here: http://www.arcsynthesis.org/gltut/Basics/Tut01%20Making%20Shaders.html */
+
+		GLuint tempProgram;
+		tempProgram = glCreateProgram();
+
+		glAttachShader(tempProgram, vertexShader);
+		glAttachShader(tempProgram, fragmentShader);
+
+		glLinkProgram(tempProgram); //linking!
+
+		//error checking
+		GLint status;
+		glGetProgramiv(tempProgram, GL_LINK_STATUS, &status);
+		if (status == GL_FALSE)
+		{
+			GLint infoLogLength;
+			glGetProgramiv(tempProgram, GL_INFO_LOG_LENGTH, &infoLogLength);
+
+			GLchar strInfoLog[4096];
+			glGetProgramInfoLog(tempProgram, infoLogLength, NULL, strInfoLog);
+			m_log("Shader linker failure: ", strInfoLog);
+			return -1;
+		}
+		else
+			m_log("Shader linked sucessfully!");
+
+		glDetachShader(tempProgram, vertexShader);
+		glDetachShader(tempProgram, fragmentShader);
+
+		return tempProgram;
+	}
+
+};
+
 }// cma
 
 
@@ -429,7 +471,8 @@ void app_thread_runner()
 {
 	cma::LogWriter log;
 	log.open();
-	log.log_message("Application started");
+	log.log("Application started");
+	cma::GL3Context glc(log);
 
 	// TODO open PUB socket for passing ui events as messages
 	// TODO open SUB socket for accepting modifications to ui state
@@ -446,14 +489,14 @@ void app_thread_runner()
 	SDL_GLContext glContext = SDL_GL_CreateContext(window);
 	if (glContext == NULL)
 	{
-		printf("There was an error creating the OpenGL context!\n");
+		log("There was an error creating the OpenGL context!\n");
 		return;
 	}
 
 	const unsigned char *version = glGetString(GL_VERSION);
 	if (version == NULL)
 	{
-		printf("There was an error creating the OpenGL context!\n");
+		log("There was an error creating the OpenGL context!\n");
 		return;
 	}
 
@@ -467,7 +510,8 @@ void app_thread_runner()
 	GLenum glew_status = glewInit();
 	if (glew_status != 0)
 	{
-		fprintf(stderr, "Error: %s\n", glewGetErrorString(glew_status));
+		log("Error: ", ((char*)glewGetErrorString(glew_status)));
+//		fprintf(stderr, "Error: %s\n", glewGetErrorString(glew_status));
 		return;
 	}
 
@@ -498,14 +542,14 @@ void app_thread_runner()
 	float uniform_color [] = { 1.0, 1.0, 0.0, 1.0 };
 
 	GLuint theShaderProgram;
-	theShaderProgram = BuildShaderProgram("vs3.glsl", "fs3.glsl");
+	theShaderProgram = glc.BuildShaderProgram("vs3.glsl", "fs3.glsl");
 	if (theShaderProgram == -1)
 	{
 		SDL_Quit();
 		return;
 	}
 
-	printf("Using program %d\n", theShaderProgram);
+	log("Using program", std::to_string(theShaderProgram));
 
 	GLuint vao;
 	glGenVertexArrays(1, &vao);
@@ -517,7 +561,7 @@ void app_thread_runner()
 	glBufferData(GL_ARRAY_BUFFER, sizeof(triangleVertices), triangleVertices, GL_STATIC_DRAW); //formatting the data for the buffer
 	glBindBuffer(GL_ARRAY_BUFFER, 0); //unbind any buffers
 
-	printf("glError: %d\n", glGetError());
+	log("glError: %d\n", std::to_string(glGetError()));
 
 	char bGameLoopRunning = 1;
 	while (bGameLoopRunning)
@@ -531,7 +575,7 @@ void app_thread_runner()
 				std::stringstream str;
 				str << "Key press:";
 				cma::SDLKeycodeToStream(str, e.key.keysym.sym);
-				log.log_message(str.str());
+				log.log(str.str());
 			}
 
 			if (e.type == SDL_QUIT)
@@ -572,18 +616,24 @@ void app_thread_runner()
 	}
 
 	SDL_GL_DeleteContext(glContext);
+	SDL_Quit();
 	return;
+}
+
+void event_listener_runner(){
+
 }
 
 int main(int argc, char **argv)
 {
 	cma::Log::init();
-	std::thread ui_thread(app_thread_runner);
+	// TODO event handler thread
+	//std::thread event_thread(event_listener_runner);
+	std::thread ui(app_thread_runner);
 	// TODO open SUB socket for recieving ui events as messages
 	// TODO open PUB socket for forwarding modifications to ui state
-	ui_thread.join();
-	
-	SDL_Quit();
+	//event_thread.join();
+	ui.join();
 	cma::Log::end();
 	return 0;
 }
