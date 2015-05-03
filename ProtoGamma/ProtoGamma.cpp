@@ -6,6 +6,7 @@
 #include "Commons/cma_sdl_util.h"
 #include "Commons/cms_vec.h"
 #include "Commons/cma_log.h"
+#include "Commons/cma_messaging.h"
 
 #include<cstdio>
 #include<string>
@@ -160,6 +161,10 @@ void app_thread_runner()
 	if (SDL_Init(SDL_INIT_VIDEO) < 0)
 		return;
 
+	// Configure Multisampling
+	SDL_GL_SetAttribute(SDL_GL_MULTISAMPLEBUFFERS, 1);
+	SDL_GL_SetAttribute(SDL_GL_MULTISAMPLESAMPLES, 16);
+
 	SDL_Window *window = SDL_CreateWindow("My Game Window",
 		SDL_WINDOWPOS_UNDEFINED,
 		SDL_WINDOWPOS_UNDEFINED,
@@ -184,6 +189,15 @@ void app_thread_runner()
 
 	SDL_GL_SetAttribute(SDL_GL_CONTEXT_MAJOR_VERSION, 3);
 	SDL_GL_SetAttribute(SDL_GL_CONTEXT_MINOR_VERSION, 3);
+
+	//
+	// Set multisampling options
+	//
+	glHint(GL_LINE_SMOOTH_HINT, GL_NICEST);
+	glHint(GL_POLYGON_SMOOTH_HINT, GL_NICEST);
+
+	glEnable(GL_LINE_SMOOTH);
+	glEnable(GL_POLYGON_SMOOTH);
 
 	//MUST make a context AND make it current BEFORE glewInit()!
 	glewExperimental = GL_TRUE;
@@ -265,7 +279,7 @@ void app_thread_runner()
 				//log.log_message("Key up");
 				std::stringstream str;
 				str << "Key press:";
-				cma::SDLKeycodeToStream(str, e.key.keysym.sym);
+				cma::sdl_keycode_to_stream(str, e.key.keysym.sym);
 				log.log(str.str());
 			}
 
@@ -317,6 +331,8 @@ void event_listener_runner(){
 
 int main(int argc, char **argv)
 {
+
+	cma::Messaging::init();
 	cma::Log::init();
 	// TODO event handler thread
 	//std::thread event_thread(event_listener_runner);
@@ -326,6 +342,7 @@ int main(int argc, char **argv)
 	//event_thread.join();
 	ui.join();
 	cma::Log::end();
+	cma::Messaging::end();
 	return 0;
 }
 #endif

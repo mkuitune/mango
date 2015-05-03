@@ -2,6 +2,7 @@
 
 #include "zhelpers.h"
 #include "zmq.h"
+#include "cma_messaging.h"
 #include <string>
 #include <iostream>
 #include <fstream>
@@ -64,13 +65,12 @@ namespace cma {
 		static std::shared_ptr<Log> s_log;
 		static std::shared_ptr<std::thread> s_logThread;
 		static std::atomic<bool> s_run_log; // TODO replace with messaging
-		static void* s_msg_context;
 
 		static void log_runner()
 		{
+			// must call cma::Messaging::init first
 			// Open server socket
-			//		void* context = zmq_ctx_new(); // Can use this only if forked...
-			void* receiver = zmq_socket(s_msg_context, ZMQ_SUB);
+			void* receiver = zmq_socket(cma::Messaging::get_context(), ZMQ_SUB);
 			//		zmq_bind(receiver, CMA_LOG_SOCKET);
 			zmq_connect(receiver, CMA_LOG_SOCKET);
 			zmq_setsockopt(receiver, ZMQ_SUBSCRIBE, "", 0);
@@ -94,7 +94,7 @@ namespace cma {
 
 		static void init(){
 			// Create context
-			s_msg_context = zmq_ctx_new();
+			// Must call cma::Messaging::init(); before this
 			// Create log pointer
 			s_log.reset(new Log());
 			s_log->open();
@@ -105,23 +105,22 @@ namespace cma {
 		static void end(){
 			s_run_log = false;
 			s_logThread->join();
-			zmq_ctx_destroy(s_msg_context);
+			cma::Messaging::end();
 		}
 	};
 
-	/// Use only from one thread.
+	/// Use instance only from one thread.
 	class LogWriter {
 	public:
 		void* m_sender;
 		void* m_context;
 
-		LogWriter() :m_context(Log::s_msg_context), m_sender(0){
+		LogWriter() :m_context(cma::Messaging::get_context()), m_sender(0){
 		}
 
 		~LogWriter(){
 			// Close ZMQ client socket
 			zmq_close(m_sender);
-			//zmq_ctx_destroy(m_context);
 		}
 
 		void open(){

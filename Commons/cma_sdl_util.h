@@ -5,6 +5,6 @@
 #include <iostream>
 
 namespace cma{
-	std::ostream& SDLKeycodeToStream(std::ostream& os, Sint32 kc);
+	std::ostream& sdl_keycode_to_stream(std::ostream& os, Sint32 kc);
 
 }

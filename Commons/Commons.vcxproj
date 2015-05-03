@@ -74,6 +74,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="cma_messaging.cpp" />
     <ClCompile Include="cms_aligned_array.cpp" />
     <ClCompile Include="cms_collections.cpp" />
     <ClCompile Include="cma_sdl_util.cpp" />
@@ -81,6 +82,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="cma_log.h" />
+    <ClInclude Include="cma_messaging.h" />
     <ClInclude Include="cms_aligned_array.h" />
     <ClInclude Include="cms_collections.h" />
     <ClInclude Include="cms_math.h" />

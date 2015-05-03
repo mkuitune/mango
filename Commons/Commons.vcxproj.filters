@@ -5,6 +5,7 @@
     <ClCompile Include="cms_collections.cpp" />
     <ClCompile Include="cma_sdl_util.cpp" />
     <ClCompile Include="cma_log.cpp" />
+    <ClCompile Include="cma_messaging.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="cms_aligned_array.h" />
@@ -16,5 +17,6 @@
     <ClInclude Include="zhelpers.h" />
     <ClInclude Include="cma_sdl_util.h" />
     <ClInclude Include="cma_log.h" />
+    <ClInclude Include="cma_messaging.h" />
   </ItemGroup>
 </Project>

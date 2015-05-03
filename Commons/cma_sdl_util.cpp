@@ -2,7 +2,7 @@
 
 namespace cma {
 
-	std::ostream& SDLKeycodeToStream(std::ostream& os, Sint32 kc){
+	std::ostream& sdl_keycode_to_stream(std::ostream& os, Sint32 kc){
 		// Append to stream based on keycode
 		if (kc == 0 || kc >= SDLK_SLEEP) os << "<UNKNOWN>";
 		else if (kc < SDLK_CAPSLOCK){
