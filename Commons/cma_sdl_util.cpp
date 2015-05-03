@@ -1,6 +1,6 @@
-#include "cms_sdl_util.h"
+#include "cma_sdl_util.h"
 
-namespace cms {
+namespace cma {
 
 	std::ostream& SDLKeycodeToStream(std::ostream& os, Sint32 kc){
 		// Append to stream based on keycode

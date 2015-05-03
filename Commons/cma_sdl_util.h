@@ -4,7 +4,7 @@
 
 #include <iostream>
 
-namespace cms{
+namespace cma{
 	std::ostream& SDLKeycodeToStream(std::ostream& os, Sint32 kc);
 
 }

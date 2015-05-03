@@ -74,14 +74,14 @@
   <ItemGroup>
     <ClCompile Include="cms_aligned_array.cpp" />
     <ClCompile Include="cms_collections.cpp" />
-    <ClCompile Include="cms_sdl_util.cpp" />
+    <ClCompile Include="cma_sdl_util.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="cms_aligned_array.h" />
     <ClInclude Include="cms_collections.h" />
     <ClInclude Include="cms_math.h" />
     <ClInclude Include="cms_rand.h" />
-    <ClInclude Include="cms_sdl_util.h" />
+    <ClInclude Include="cma_sdl_util.h" />
     <ClInclude Include="cms_timer.h" />
     <ClInclude Include="cms_vec.h" />
     <ClInclude Include="zhelpers.h" />

@@ -3,7 +3,8 @@
 
 #include "zmq.h"
 #include "Commons/zhelpers.h"
-#include "Commons/cms_sdl_util.h"
+#include "Commons/cma_sdl_util.h"
+#include "Commons/cms_vec.h"
 
 #include<cstdio>
 #include<string>
@@ -277,6 +278,16 @@ public:
 
 }// cma
 
+// cms does not contain platform specific code, only cma does
+namespace cms{
+	namespace VertexFormat{
+		struct ColorPosition{
+			Vec3f position;
+			Vec4f color;
+		};
+	}
+}
+
 
 void checkLogGlError(cma::LogWriter& log){
 	int err = glGetError();
@@ -405,7 +416,7 @@ void app_thread_runner()
 				//log.log_message("Key up");
 				std::stringstream str;
 				str << "Key press:";
-				cms::SDLKeycodeToStream(str, e.key.keysym.sym);
+				cma::SDLKeycodeToStream(str, e.key.keysym.sym);
 				log.log(str.str());
 			}
 
