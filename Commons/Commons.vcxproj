@@ -51,6 +51,7 @@
       <SDLCheck>true</SDLCheck>
       <AdditionalIncludeDirectories>$(SolutionDir)external\sources\libzmq\include;$(SolutionDir)include;</AdditionalIncludeDirectories>
       <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
+      <DisableSpecificWarnings>4996</DisableSpecificWarnings>
     </ClCompile>
     <Link>
       <GenerateDebugInformation>true</GenerateDebugInformation>
@@ -64,6 +65,7 @@
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <SDLCheck>true</SDLCheck>
       <AdditionalIncludeDirectories>$(SolutionDir)external\sources\libzmq\include;$(SolutionDir)include;</AdditionalIncludeDirectories>
+      <DisableSpecificWarnings>4996</DisableSpecificWarnings>
     </ClCompile>
     <Link>
       <GenerateDebugInformation>true</GenerateDebugInformation>
@@ -75,8 +77,10 @@
     <ClCompile Include="cms_aligned_array.cpp" />
     <ClCompile Include="cms_collections.cpp" />
     <ClCompile Include="cma_sdl_util.cpp" />
+    <ClCompile Include="cma_log.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="cma_log.h" />
     <ClInclude Include="cms_aligned_array.h" />
     <ClInclude Include="cms_collections.h" />
     <ClInclude Include="cms_math.h" />
