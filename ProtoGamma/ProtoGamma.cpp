@@ -278,6 +278,13 @@ public:
 }// cma
 
 
+void checkLogGlError(cma::LogWriter& log){
+	int err = glGetError();
+	if (err){
+		log("glError: ", std::to_string(err), ", ", std::string((char*) glewGetErrorString(err)));
+		
+	}
+}
 
 #if 1
 void app_thread_runner()
@@ -332,13 +339,13 @@ void app_thread_runner()
 	* []
 	* */
 	const float triangleVertices [] = {
-		-1.0f, -1.0f, 0.0f, 1.0f,
-		1.0f, -1.0f, 0.0f, 1.0f,
-		-1.0f, 1.0f, 0.0f, 1.0f,
+		-1.0f, -1.0f, 0.0f, 
+		1.0f, -1.0f, 0.0f, 
+		-1.0f, 1.0f, 0.0f,
 
-		1.0f, -1.0f, 0.0f, 1.0f,
-		1.0f, 1.0f, 0.0f, 1.0f,
-		-1.0f, 1.0f, 0.0f, 1.0f,
+		1.0f, -1.0f, 0.0f,
+		1.0f, 1.0f, 0.0f,
+		-1.0f, 1.0f, 0.0f,
 
 		//next part contains vertex colors
 		1.0f, 0.0f, 0.0f, 1.0f,
@@ -349,7 +356,9 @@ void app_thread_runner()
 		-1.0f, 1.0f, 0.0f, 1.0f
 	};
 
-	size_t colorDataOffset = sizeof(triangleVertices) / 2;
+	//size_t colorDataOffset = sizeof(triangleVertices) / 2;
+	size_t verticesSize = 3 * sizeof(float) * 6;
+    size_t colorDataOffset = verticesSize;
 	size_t nTriangles = 2;
 
 	float uniform_color [] = { 1.0, 1.0, 0.0, 1.0 };
@@ -374,7 +383,8 @@ void app_thread_runner()
 	glBufferData(GL_ARRAY_BUFFER, sizeof(triangleVertices), triangleVertices, GL_STATIC_DRAW); //formatting the data for the buffer
 	glBindBuffer(GL_ARRAY_BUFFER, 0); //unbind any buffers
 
-	log("glError: %d\n", std::to_string(glGetError()));
+	//log("glError: %d\n", std::to_string(glGetError()));
+	checkLogGlError(log);
 
 	char bGameLoopRunning = 1;
 	while (bGameLoopRunning)
@@ -406,7 +416,7 @@ void app_thread_runner()
 		glBindBuffer(GL_ARRAY_BUFFER, triangleBufferObject); //bind the buffer we're applying attributes to
 		glEnableVertexAttribArray(0); //0 is our index, refer to "location = 0" in the vertex shader
 		glEnableVertexAttribArray(1); //attribute 1 is for vertex color data
-		glVertexAttribPointer(0, 4, GL_FLOAT, GL_FALSE, 0, 0); //tell gl (shader!) how to interpret our vertex data
+		glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 0, 0); //tell gl (shader!) how to interpret our vertex data
 		glVertexAttribPointer(1, 4, GL_FLOAT, GL_FALSE, 0, (void*) colorDataOffset); //color data is 48 bytes in to the array
 
 		// Attach uniforms
