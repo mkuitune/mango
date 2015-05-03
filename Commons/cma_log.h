@@ -26,7 +26,6 @@ namespace cma {
 	public:
 		const static std::string logfile;
 	};
-	const std::string LogConfig::logfile = std::string("log.txt");
 
 	class Log{
 	public:

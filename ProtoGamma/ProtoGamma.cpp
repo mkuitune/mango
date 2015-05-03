@@ -5,6 +5,7 @@
 #include "Commons/zhelpers.h"
 #include "Commons/cma_sdl_util.h"
 #include "Commons/cms_vec.h"
+#include "Commons/cma_log.h"
 
 #include<cstdio>
 #include<string>
@@ -21,7 +22,7 @@
 // GL utility functions
 //
 namespace cma {
-
+#if 0
 //#define CMA_LOG_SOCKET "tcp://localhost:5558"
 
 // PUB/SUB channel for logging
@@ -172,7 +173,7 @@ namespace cma {
 		}
 	};
 
-
+#endif
 
 class GL3Context {
 public:
