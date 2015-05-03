@@ -379,9 +379,17 @@ void app_thread_runner()
 
 	GLuint triangleBufferObject;
 	glGenBuffers(1, &triangleBufferObject); //create the buffer
+
 	glBindBuffer(GL_ARRAY_BUFFER, triangleBufferObject); //we're "using" this one now
 	glBufferData(GL_ARRAY_BUFFER, sizeof(triangleVertices), triangleVertices, GL_STATIC_DRAW); //formatting the data for the buffer
+
+	glEnableVertexAttribArray(0); //0 is our index, refer to "location = 0" in the vertex shader
+	glEnableVertexAttribArray(1); //attribute 1 is for vertex color data
+	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 0, 0); //tell gl (shader!) how to interpret our vertex data
+	glVertexAttribPointer(1, 4, GL_FLOAT, GL_FALSE, 0, (void*) colorDataOffset); //color data is 48 bytes in to the array
+	
 	glBindBuffer(GL_ARRAY_BUFFER, 0); //unbind any buffers
+	glBindVertexArray(0);
 
 	//log("glError: %d\n", std::to_string(glGetError()));
 	checkLogGlError(log);
@@ -413,11 +421,13 @@ void app_thread_runner()
 		/* drawing code in here! */
 		glUseProgram(theShaderProgram);
 
-		glBindBuffer(GL_ARRAY_BUFFER, triangleBufferObject); //bind the buffer we're applying attributes to
-		glEnableVertexAttribArray(0); //0 is our index, refer to "location = 0" in the vertex shader
-		glEnableVertexAttribArray(1); //attribute 1 is for vertex color data
-		glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 0, 0); //tell gl (shader!) how to interpret our vertex data
-		glVertexAttribPointer(1, 4, GL_FLOAT, GL_FALSE, 0, (void*) colorDataOffset); //color data is 48 bytes in to the array
+		glBindVertexArray(vao);
+
+		//glBindBuffer(GL_ARRAY_BUFFER, triangleBufferObject); //bind the buffer we're applying attributes to
+		//glEnableVertexAttribArray(0); //0 is our index, refer to "location = 0" in the vertex shader
+		//glEnableVertexAttribArray(1); //attribute 1 is for vertex color data
+		//glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 0, 0); //tell gl (shader!) how to interpret our vertex data
+		//glVertexAttribPointer(1, 4, GL_FLOAT, GL_FALSE, 0, (void*) colorDataOffset); //color data is 48 bytes in to the array
 
 		// Attach uniforms
 
@@ -426,9 +436,10 @@ void app_thread_runner()
 
 		glDrawArrays(GL_TRIANGLES, 0, 3 * nTriangles);
 
-		glDisableVertexAttribArray(0);
-		glDisableVertexAttribArray(1);
+		//glDisableVertexAttribArray(0);
+		//glDisableVertexAttribArray(1);
 		glUseProgram(0);
+		glBindVertexArray(0);
 		/* drawing code above here! */
 
 		SDL_GL_SwapWindow(window);
