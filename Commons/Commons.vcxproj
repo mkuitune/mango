@@ -49,7 +49,8 @@
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
       <SDLCheck>true</SDLCheck>
-      <AdditionalIncludeDirectories>$(SolutionDir)external\sources\libzmq\include</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)external\sources\libzmq\include;$(SolutionDir)include;</AdditionalIncludeDirectories>
+      <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
     </ClCompile>
     <Link>
       <GenerateDebugInformation>true</GenerateDebugInformation>
@@ -62,7 +63,7 @@
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <SDLCheck>true</SDLCheck>
-      <AdditionalIncludeDirectories>$(SolutionDir)external\sources\libzmq\include</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)external\sources\libzmq\include;$(SolutionDir)include;</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <GenerateDebugInformation>true</GenerateDebugInformation>
@@ -73,12 +74,14 @@
   <ItemGroup>
     <ClCompile Include="cms_aligned_array.cpp" />
     <ClCompile Include="cms_collections.cpp" />
+    <ClCompile Include="cms_sdl_util.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="cms_aligned_array.h" />
     <ClInclude Include="cms_collections.h" />
     <ClInclude Include="cms_math.h" />
     <ClInclude Include="cms_rand.h" />
+    <ClInclude Include="cms_sdl_util.h" />
     <ClInclude Include="cms_timer.h" />
     <ClInclude Include="cms_vec.h" />
     <ClInclude Include="zhelpers.h" />

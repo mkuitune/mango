@@ -3,6 +3,7 @@
   <ItemGroup>
     <ClCompile Include="cms_aligned_array.cpp" />
     <ClCompile Include="cms_collections.cpp" />
+    <ClCompile Include="cms_sdl_util.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="cms_aligned_array.h" />
@@ -12,5 +13,6 @@
     <ClInclude Include="cms_math.h" />
     <ClInclude Include="cms_vec.h" />
     <ClInclude Include="zhelpers.h" />
+    <ClInclude Include="cms_sdl_util.h" />
   </ItemGroup>
 </Project>
