@@ -5,3 +5,4 @@ projects/Debug/*
 projects/Release/*
 *.tlog
 *.idb
+ProtoGamma/log.txt
